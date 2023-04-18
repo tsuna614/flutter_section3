@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /*
   // Widget activeScreen = StartScreen(handlePress);
   Widget? activeScreen;
 
@@ -21,10 +22,17 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   } // special function to initiate state for active screen. If you try to initialize it without this function (as shown in the comment above) it won't work
   // learn more about the "flutter widget lifecycle"
+  */
+
+  // ALTERNATIVE
+
+  var activeScreen = "start_screen";
 
   void handlePress() {
     setState(() {
-      activeScreen = const QuestionScreen();
+      if (activeScreen == "start_screen") {
+        activeScreen = "question_screen";
+      }
     });
     print("I got clicked!");
   }
@@ -32,8 +40,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Demo App",
-      home: Scaffold(body: activeScreen),
-    );
+        title: "Demo App",
+        home: Scaffold(
+          body: activeScreen == "start_screen"
+              ? StartScreen(handlePress)
+              : QuestionScreen(handlePress),
+        ));
   }
 }
