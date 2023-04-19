@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './start_screen.dart';
 import './question_screen.dart';
 import './data/questions.dart'; // import this file to get the length of the questions list
+import './results_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -28,6 +29,7 @@ class _QuizState extends State<Quiz> {
   List<String> selectedAnswers = [];
 
   var activeScreen = "start_screen";
+  late Widget screenWidget;
 
   void handlePress() {
     setState(() {
@@ -35,9 +37,11 @@ class _QuizState extends State<Quiz> {
         activeScreen = "question_screen";
         selectedAnswers =
             []; // moi lan start quiz tu dau se lam moi danh sach selectedAnswers
+      } else if (activeScreen == "results_screen") {
+        activeScreen = "start_screen";
       }
     });
-    print("I got clicked!");
+    print(activeScreen);
   }
 
   void chosenAnswer(answer) {
@@ -45,22 +49,35 @@ class _QuizState extends State<Quiz> {
     print(selectedAnswers);
     if (selectedAnswers.length == questions.length) {
       setState(() {
-        activeScreen = "start_screen";
+        activeScreen = "results_screen";
       });
+    }
+  }
+
+  Widget _buildChild() {
+    if (activeScreen == "start_screen") {
+      return StartScreen(handlePress);
+    } else if (activeScreen == "question_screen") {
+      return QuestionScreen(onSelectAnswer: chosenAnswer);
+    } else {
+      return ResultScreen(handlePress);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "Demo App",
-        home: Scaffold(
-            body: activeScreen == "start_screen"
-                ? StartScreen(handlePress)
-                // : QuestionScreen(handlePress),
-                ////neu de nhu nay se bi bug, vi trong question_screen.dart dung required this.onSelectedAnswer
-                : QuestionScreen(
-                    onSelectAnswer: chosenAnswer,
-                  )));
+      title: "Demo App",
+      home: Scaffold(
+        // body: activeScreen == "start_screen"
+        //     ? StartScreen(handlePress)
+        //     // : QuestionScreen(handlePress),
+        //     ////neu de nhu nay se bi bug, vi trong question_screen.dart dung required this.onSelectedAnswer
+        //     : QuestionScreen(
+        //         onSelectAnswer: chosenAnswer,
+        //       )));
+        body: _buildChild(),
+      ),
+    );
   }
 }
