@@ -56,6 +56,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             height: 30,
           ),
           ...currentQuestion.getShuffledAnswers().map((answer) {
+            // ham getShuffledAnswers (trong file .dart cua quiz models) se tra ve mot list<string> temp duoc shuffle tu list<string> cua answers
             return StyledButton(answer, () {
               handleClick(answer);
             });

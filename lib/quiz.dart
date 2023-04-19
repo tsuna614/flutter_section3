@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './start_screen.dart';
 import './question_screen.dart';
+import './data/questions.dart'; // import this file to get the length of the questions list
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -24,7 +25,7 @@ class _QuizState extends State<Quiz> {
 
   // ALTERNATIVE
 
-  final List<String> selectedAnswers = [];
+  List<String> selectedAnswers = [];
 
   var activeScreen = "start_screen";
 
@@ -32,6 +33,8 @@ class _QuizState extends State<Quiz> {
     setState(() {
       if (activeScreen == "start_screen") {
         activeScreen = "question_screen";
+        selectedAnswers =
+            []; // moi lan start quiz tu dau se lam moi danh sach selectedAnswers
       }
     });
     print("I got clicked!");
@@ -40,6 +43,11 @@ class _QuizState extends State<Quiz> {
   void chosenAnswer(answer) {
     selectedAnswers.add(answer);
     print(selectedAnswers);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = "start_screen";
+      });
+    }
   }
 
   @override
