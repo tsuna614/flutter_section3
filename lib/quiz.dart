@@ -60,7 +60,7 @@ class _QuizState extends State<Quiz> {
     } else if (activeScreen == "question_screen") {
       return QuestionScreen(onSelectAnswer: chosenAnswer);
     } else {
-      return ResultScreen(handlePress);
+      return ResultScreen(handlePress, selectedAnswers);
     }
   }
 
