@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './start_screen.dart';
-import './question_screen.dart';
+import 'start_screen/start_screen.dart';
+import 'question_screen/question_screen.dart';
 import './data/questions.dart'; // import this file to get the length of the questions list
-import './results_screen.dart';
+import 'results_screen/results_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -26,7 +26,7 @@ class _QuizState extends State<Quiz> {
 
   // ALTERNATIVE
 
-  List<String> selectedAnswers = [];
+  List<String> _selectedAnswers = [];
 
   var activeScreen = "start_screen";
   late Widget screenWidget;
@@ -35,8 +35,8 @@ class _QuizState extends State<Quiz> {
     setState(() {
       if (activeScreen == "start_screen") {
         activeScreen = "question_screen";
-        selectedAnswers =
-            []; // moi lan start quiz tu dau se lam moi danh sach selectedAnswers
+        _selectedAnswers =
+            []; // moi lan start quiz tu dau se lam moi danh sach _selectedAnswers
       } else if (activeScreen == "results_screen") {
         activeScreen = "start_screen";
       }
@@ -45,9 +45,9 @@ class _QuizState extends State<Quiz> {
   }
 
   void chosenAnswer(answer) {
-    selectedAnswers.add(answer);
-    print(selectedAnswers);
-    if (selectedAnswers.length == questions.length) {
+    _selectedAnswers.add(answer);
+    print(_selectedAnswers);
+    if (_selectedAnswers.length == questions.length) {
       setState(() {
         activeScreen = "results_screen";
       });
@@ -60,7 +60,7 @@ class _QuizState extends State<Quiz> {
     } else if (activeScreen == "question_screen") {
       return QuestionScreen(onSelectAnswer: chosenAnswer);
     } else {
-      return ResultScreen(handlePress, selectedAnswers);
+      return ResultScreen(handlePress, _selectedAnswers);
     }
   }
 
